@@ -12,7 +12,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -DNDEBUG")
 # Prefer vendor OpenGL over legacy version
 set(OpenGL_GL_PREFERENCE GLVND)
 
-find_package(OpenCV REQUIRED)
+#find_package(OpenCV REQUIRED)
 find_package(GLEW   REQUIRED)
 find_package(OpenGL REQUIRED)
 
