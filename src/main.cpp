@@ -16,6 +16,7 @@
 // Shader loading
 #include <common/loadShader.hpp>
 #include <render/entities/simple_shape.hpp>
+#include <render/entities/colored_shape.hpp>
 #include <models/cube.hpp>
 
 int main()
@@ -79,13 +80,17 @@ int main()
   glGenVertexArrays(1, &VertexArrayID);
   glBindVertexArray(VertexArrayID);
 
+  // Enable depth test
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LESS);
+
   //  Declaring our triangle
-  auto obj = make_simple_shape(cube_coords);
+  auto obj = make_colored_shape(cube_coords, cube_colors);
 
   //  Moves objects from world to view coordinates
-  auto view_mat = glm::lookAt ( glm::vec3{  0.f,  0.f,  5.f } //  Eye
-                              , glm::vec3{  0.f,  0.f, -1.f } //  Center
-                              , glm::vec3{  0.f,  1.f,  0.f } //  Up
+  auto view_mat = glm::lookAt ( glm::vec3{ 0.f,  0.f,  0.f } //  Eye
+                              , glm::vec3{ 0.f,  0.f, -1.f } //  Center
+                              , glm::vec3{ 0.f,  1.f,  0.f } //  Up
                               );
 
   //  Projection matrix, yo
