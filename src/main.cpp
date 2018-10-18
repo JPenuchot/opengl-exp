@@ -15,8 +15,8 @@
 
 // Shader loading
 #include <common/loadShader.hpp>
-
-#include <render/entities/triangle.hpp>
+#include <render/entities/simple_shape.hpp>
+#include <models/cube.hpp>
 
 int main()
 {
@@ -48,8 +48,7 @@ int main()
   // Open a window and create its OpenGL context
 
   // (In the accompanying source code, this variable is global for simplicity)
-  GLFWwindow* window;
-  window = glfwCreateWindow(3200, 1800, "Tuto ça tourne mal", NULL, NULL);
+  auto window = glfwCreateWindow(3200, 1800, "Tuto ça tourne mal", NULL, NULL);
 
   if(!window)
   {
@@ -81,7 +80,7 @@ int main()
   glBindVertexArray(VertexArrayID);
 
   //  Declaring our triangle
-  triangle tr;
+  auto obj = make_simple_shape(cube_coords);
 
   //  Moves objects from world to view coordinates
   auto view_mat = glm::lookAt ( glm::vec3{  0.f,  0.f,  5.f } //  Eye
@@ -106,8 +105,8 @@ int main()
     //  Making dat proj + view matrix
     auto proj_view_mat = proj_mat * view_mat;
 
-    //  Drawing our triangle
-    tr.draw(proj_view_mat);
+    //  Drawing our objiangle
+    obj.draw(proj_view_mat);
 
     // Swap buffers
     glfwSwapBuffers(window);
