@@ -12,7 +12,8 @@
 
 #include <common/loadShader.hpp>
 
-class triangle
+template<std::size_t N>
+class simple_shape
 {
   GLuint programID;
 
@@ -22,22 +23,21 @@ class triangle
   //  Model matrix
   glm::mat4 model;
 
+  // An array of 3 vectors which represents 3 vertices
+  const std::array<GLfloat, N * 9> g_vertex_buffer;
+
 public:
 
-  triangle( glm::mat4 model = glm::translate( glm::identity<glm::mat4>()
-                                            , glm::vec3{ 0.f, 0.f, -10.f }
-                                            )
-          )
-  : programID (LoadShaders("shaders/vert.glsl" , "shaders/frag.glsl"))
-  , model     (model)
+  simple_shape( const std::array<GLfloat, N * 9> g_vertex_buffer
+              , const glm::mat4& model
+              )
+  : programID       (LoadShaders( "shaders/simple_shape.vert"
+                                , "shaders/simple_shape.frag"
+                                ))
+  , model           (model)
+  , g_vertex_buffer (g_vertex_buffer)
   {
     using namespace std;
-
-    // An array of 3 vectors which represents 3 vertices
-    constexpr array<GLfloat, 9> g_vertex_buffer = { -1.0f, -1.0f, 0.0f
-                                                  ,  1.0f, -1.0f, 0.0f
-                                                  ,  0.0f,  1.0f, 0.0f
-                                                  };
 
     // Generate 1 buffer, put the resulting identifier in vertexbuffer
     glGenBuffers(1, &vertexbuffer);
@@ -86,9 +86,25 @@ public:
     glUseProgram(programID);
 
     // Draw the triangle
-    glDrawArrays(GL_TRIANGLES, 0, 3); // Starting from vertex 0;
-                                      // 3 vertices total -> 1 triangle
+    glDrawArrays(GL_TRIANGLES, 0, g_vertex_buffer.size() / 3);
 
     glDisableVertexAttribArray(0);
   }
 };
+
+template<std::size_t N>
+auto make_simple_shape( const std::array<GLfloat, N> g_vertex_buffer
+                      , const glm::mat4& model =
+                          glm::translate( glm::identity<glm::mat4>()
+                                        , glm::vec3{ 0.f, 0.f, -10.f }
+                                        )
+                      )
+{
+  static_assert(N % 9 == 0, "Wrong vertex amount.");
+  return simple_shape<N / 9>{g_vertex_buffer, model};
+}
+
+//  Simple shape examples
+
+using simple_triangle = simple_shape<1>;
+using simple_cube     = simple_shape<12>;
