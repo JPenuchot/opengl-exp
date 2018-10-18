@@ -25,7 +25,7 @@ inline constexpr std::array<GLfloat, 12*3*3> cube_coords =
   };
 
 // One color for each vertex. They were generated randomly.
-inline constexpr std::array<GLfloat, 12*3*3> cube_color =
+inline constexpr std::array<GLfloat, 12*3*3> cube_colors =
   { 0.583f, 0.771f, 0.014f,    0.609f, 0.115f, 0.436f,    0.327f, 0.483f, 0.844f
   , 0.822f, 0.569f, 0.201f,    0.435f, 0.602f, 0.223f,    0.310f, 0.747f, 0.185f
 
